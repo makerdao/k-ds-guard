@@ -1,0 +1,17 @@
+{
+  "name": "ds-guard",
+  "src": {
+    "specification": "src/guard.md",
+    "smt_prelude": "src/prelude.smt2.md",
+    "rules": [
+      "src/storage.k.md",
+      "src/lemmas.k.md"
+    ]
+  },
+  "implementations": {
+    "DSGuard": {
+      "solc_output": "ds-guard/out/guard.sol.json"
+    }
+  },
+  "dapp_root": "ds-guard"
+}

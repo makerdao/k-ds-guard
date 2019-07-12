@@ -1,6 +1,28 @@
 `DSAuth` spec
 
 ```act
+behaviour isAuthorized of DSAuth
+interface isAuthorized(address src, bytes4 sig) internal
+
+types
+  Owner : address
+  Authority : address
+
+storage
+  owner |-> Owner
+  authority |-> Authority
+
+iff
+  VCallValue == 0
+  (Owner == src) or (ACCT_ID == src)
+
+if
+  (Owner == src) or (ACCT_ID == src) or (Authority == 0)
+
+returns true
+```
+
+```act
 behaviour setOwner of DSAuth
 interface setOwner(address usr)
 
@@ -17,7 +39,7 @@ iff
   (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID)
 
 if
-  Authority =/= 0
+  (CALLER_ID == Owner) or (CALLED_ID == ACCT_ID) or (Authority == 0)
 ```
 
 ```act
@@ -70,6 +92,8 @@ if
   CALLER_ID == Owner
   ACCT_ID =/= CALLER_ID
 ```
+
+`DSGuard` spec
 
 ```act
 behaviour canCall of DSGuard

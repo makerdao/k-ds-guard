@@ -6,5 +6,11 @@ syntax Int ::= "#DSGuard.owner" [function]
 rule #DSGuard.owner => 1
 
 syntax Int ::= "#DSGuard.authority" [function]
-rule #DSGuard.authority => 0 
+rule #DSGuard.authority => 0
+
+syntax Int ::= "#DSAuth.owner" [function]
+rule #DSAuth.owner => 1
+
+syntax Int ::= "#DSAuth.authority" [function]
+rule #DSAuth.authority => 0
 ```

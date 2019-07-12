@@ -1,7 +1,27 @@
-`DSGuard` spec
+`DSAuth` spec
 
 ```act
-behaviour owner of DSGuard
+behaviour setOwner of DSAuth
+interface setOwner(address usr)
+
+types
+  Owner : address
+  Authority : address
+
+storage
+  owner |-> Owner => usr
+  authority |-> Authority
+
+iff
+  VCallValue == 0
+  (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID)
+
+if
+  Authority =/= 0
+```
+
+```act
+behaviour owner of DSAuth
 interface owner()
 
 types
@@ -17,7 +37,7 @@ returns Owner
 ```
 
 ```act
-behaviour authority of DSGuard
+behaviour authority of DSAuth
 interface authority()
 
 types
@@ -33,46 +53,7 @@ returns Authority
 ```
 
 ```act
-behaviour setOwner of DSGuard
-interface setOwner(address usr)
-
-types
-  Owner : address
-  Authority : address
-
-storage
-  owner |-> CALLER_ID => usr
-  authority |-> Authority
-
-iff
-  VCallValue == 0
-  (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID)
-
-if
-  (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID) or (Authority == 0)
-```
-
-```act
-behaviour setOwner of DSGuard
-interface setOwner(address usr)
-
-types
-  Owner : address
-  Authority : address
-
-storage
-  owner |-> Owner => usr
-  authority |-> Authority
-
-iff
-  VCallValue == 0
-
-if
-  (Owner == CALLER_ID) or (ACCT_ID == CALLER_ID)
-```
-
-```act
-behaviour setAuthority of DSGuard
+behaviour setAuthority of DSAuth
 interface setAuthority(address usr)
 
 types
@@ -93,8 +74,6 @@ if
 ```act
 behaviour canCall of DSGuard
 interface canCall(address src, address dst, bytes4 sig)
-
-
 
 returns 1
 ```

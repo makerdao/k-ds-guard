@@ -10,7 +10,10 @@
   },
   "implementations": {
     "DSGuard": {
-      "solc_output": "ds-guard/out/guard.sol.json"
+      "src": "src/guard.sol"
+    },
+    "DSAuth": {
+      "src": "lib/ds-auth/src/auth.sol"
     }
   },
   "dapp_root": "ds-guard"

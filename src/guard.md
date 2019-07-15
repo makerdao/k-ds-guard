@@ -43,7 +43,7 @@ iff
   (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID)
 
 if
-  (CALLER_ID == Owner) or (CALLED_ID == ACCT_ID) or (Authority == 0)
+  (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID) or (Authority == 0)
 ```
 *Status:* Pass/Fail accepted
 
@@ -98,7 +98,7 @@ iff
   (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID)
 
 if
-  (CALLER_ID == Owner) or (CALLED_ID == ACCT_ID) or (Authority == 0)
+  (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID) or (Authority == 0)
 ```
 
 *Status:* Pass/Fail accepted

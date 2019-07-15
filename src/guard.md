@@ -10,7 +10,7 @@ types
 
 storage
   owner |-> Owner
-  authority |-> Authority
+  authority |-> 0
 
 iff
   VCallValue == 0
@@ -32,7 +32,7 @@ types
 
 storage
   owner |-> Owner => usr
-  authority |-> Authority
+  authority |-> 0
 
 iff
   VCallValue == 0

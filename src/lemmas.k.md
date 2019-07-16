@@ -11,4 +11,9 @@ rule X |Int 0 => X
 rule chop(A |Int B) => A |Int B
   requires #rangeUInt(256, A)
   andBool #rangeUInt(256, B)
+
+
+// custom ones:
+rule #asWord(#padToWidth(32, #asByteStack(#unsigned(X)))) => #unsigned(X)
+  requires #rangeSInt(256, X)
 ```

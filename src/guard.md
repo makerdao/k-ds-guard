@@ -24,6 +24,7 @@ if
 
 returns true
 ```
+
 *Status:* Not Accepted
 
 ```act
@@ -36,7 +37,7 @@ types
 
 storage
   owner |-> Owner => usr
-  authority |-> 0
+  authority |-> Authority
 
 iff
   VCallValue == 0
@@ -45,7 +46,47 @@ iff
 if
   (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID) or (Authority == 0)
 ```
-*Status:* Pass/Fail accepted
+
+```act
+behaviour setOwner-self of DSAuth
+interface setOwner(address usr)
+
+types
+  Owner : address
+  Authority : address
+
+storage
+  owner |-> Owner => usr
+  authority |-> 0
+
+iff
+  VCallValue == 0
+
+if
+  CALLER_ID == ACCT_ID
+```
+
+```act
+behaviour setOwner-authority of DSAuth
+interface setOwner(address usr)
+
+types
+  Owner : address
+  Authority : address
+
+storage
+  owner |-> Owner => usr
+  authority |-> 0
+
+iff
+  VCallValue == 0
+  Authority =/= 0
+
+if
+  Authority == 0
+```
+
+*Status:* WIP
 
 ```act
 behaviour owner of DSAuth
@@ -109,7 +150,16 @@ if
 behaviour canCall of DSGuard
 interface canCall(address src, address dst, bytes4 sig)
 
-returns 1
+types
+  Can : uint256
+
+storage
+  acl[#asWord(src)][#asWord(dst)][sig] |-> Can
+
+if
+  src == dst
+
+returns Can
 ```
 
 ```act

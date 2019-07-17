@@ -1,4 +1,7 @@
-`DSAuth` spec
+
+# `DSGuard` and `DSAuth` spec
+
+## `DSAuth` spec
 
 ```act
 behaviour isAuthorized of DSAuth
@@ -10,7 +13,7 @@ types
 
 storage
   owner |-> Owner
-  authority |-> Authority
+  authority |-> 0
 
 iff
   VCallValue == 0
@@ -21,6 +24,8 @@ if
 
 returns true
 ```
+
+*Status:* Not Accepted
 
 ```act
 behaviour setOwner of DSAuth
@@ -39,8 +44,49 @@ iff
   (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID)
 
 if
-  (CALLER_ID == Owner) or (CALLED_ID == ACCT_ID) or (Authority == 0)
+  (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID) or (Authority == 0)
 ```
+
+```act
+behaviour setOwner-self of DSAuth
+interface setOwner(address usr)
+
+types
+  Owner : address
+  Authority : address
+
+storage
+  owner |-> Owner => usr
+  authority |-> 0
+
+iff
+  VCallValue == 0
+
+if
+  CALLER_ID == ACCT_ID
+```
+
+```act
+behaviour setOwner-authority of DSAuth
+interface setOwner(address usr)
+
+types
+  Owner : address
+  Authority : address
+
+storage
+  owner |-> Owner => usr
+  authority |-> 0
+
+iff
+  VCallValue == 0
+  Authority =/= 0
+
+if
+  Authority == 0
+```
+
+*Status:* WIP
 
 ```act
 behaviour owner of DSAuth
@@ -57,6 +103,7 @@ iff
 
 returns Owner
 ```
+*Status:* Pass/Fail accepted
 
 ```act
 behaviour authority of DSAuth
@@ -73,6 +120,7 @@ iff
 
 returns Authority
 ```
+*Status:* Pass/Fail accepted
 
 ```act
 behaviour setAuthority of DSAuth
@@ -83,23 +131,39 @@ types
   Authority : address
 
 storage
+  owner |-> Owner
   authority |-> 0 => usr
 
 iff
   VCallValue == 0
+  (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID)
 
 if
-  CALLER_ID == Owner
-  ACCT_ID =/= CALLER_ID
+  (CALLER_ID == Owner) or (CALLER_ID == ACCT_ID) or (Authority == 0)
 ```
 
-`DSGuard` spec
+*Status:* Pass/Fail accepted
+
+## `DSGuard` spec - in progress
 
 ```act
 behaviour canCall of DSGuard
 interface canCall(address src, address dst, bytes4 sig)
 
-returns 1
+types
+  Can : uint256
+
+storage
+  acl[src][dst][sig] |-> Can
+
+iff
+  VCallValue == 0
+
+if
+  src == 0
+  dst == 0
+
+returns Can
 ```
 
 ```act

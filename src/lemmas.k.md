@@ -35,5 +35,4 @@ rule #enc(#bytes4( DATA )) => #buf(32, #getValue(#bytes4( DATA )))
 rule #getValue(#bytes4( DATA )) => DATA
       requires minUInt32 <=Int DATA andBool DATA <=Int maxUInt32
 
-rule #asWord( nthbyteof(keccak(V, W),  0, 32) )=> VW
 ```

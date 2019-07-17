@@ -14,6 +14,26 @@ rule chop(A |Int B) => A |Int B
 
 
 // custom ones:
-rule #asWord(#padToWidth(32, #asByteStack(#unsigned(X)))) => #unsigned(X)
-  requires #rangeSInt(256, X)
+syntax Int ::= "minUInt32"
+             | "maxUInt32"
+
+rule minUInt32      =>  0          [macro]
+rule maxUInt32      =>  3 [macro]
+
+rule #rangeUInt(32, X) => #range (minUInt32 <= X <= maxUInt32) [macro]
+
+syntax TypedArg ::= #bytes4 ( Int )
+
+rule #typeName( #bytes4( _ )) => "bytes4"
+
+rule #lenOfHead( #bytes4( _ )) => 32
+
+rule #isStaticType( #bytes4( _ )) => true
+
+rule #enc(#bytes4( DATA )) => #buf(32, #getValue(#bytes4( DATA )))
+
+rule #getValue(#bytes4( DATA )) => DATA
+      requires minUInt32 <=Int DATA andBool DATA <=Int maxUInt32
+
+rule #asWord( nthbyteof(keccak(V, W),  0, 32) )=> VW
 ```

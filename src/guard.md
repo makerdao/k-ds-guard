@@ -154,10 +154,14 @@ types
   Can : uint256
 
 storage
-  acl[#asWord(src)][#asWord(dst)][sig] |-> Can
+  acl[src][dst][sig] |-> Can
+
+iff
+  VCallValue == 0
 
 if
-  src == dst
+  src == 0
+  dst == 0
 
 returns Can
 ```
